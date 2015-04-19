@@ -13,5 +13,7 @@ public interface FixFolkData {
     public Account getAccountByVenmoId(String id);
     public Query<Problem> getProblemsForFolk(Account account);
     public Query<Problem> getProblemsForFixer(Account account);
+    public String getJustGivingDonationFormUrl(String charityId, Double price, String problemId);
+    public void flagDonationOnProblem(String problemId);
     public void save(Object thing);
 }

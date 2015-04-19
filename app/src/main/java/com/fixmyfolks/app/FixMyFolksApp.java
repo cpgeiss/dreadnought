@@ -22,6 +22,7 @@ import com.fixmyfolks.app.resources.IndexResource;
 import com.fixmyfolks.app.resources.ProblemResource;
 import com.fixmyfolks.data.FixFolkData;
 import com.fixmyfolks.data.FixFolkDataImpl;
+import com.fixmyfolks.justgiving.JustGiving;
 import com.fixmyfolks.venmo.Venmo;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -40,8 +41,18 @@ public class FixMyFolksApp extends Application<AppConfiguration> {
 			.setEndpoint(configuration.getVenmoClientEndpoint())
 			.setConverter(new GsonConverter(gson))
 			.build();
+      Gson givingParser = new GsonBuilder()
+          .setFieldNamingPolicy(FieldNamingPolicy.IDENTITY)
+          .create();
+      RestAdapter givingAdapter = new RestAdapter.Builder()
+          .setEndpoint(configuration.getGivingEndpoint())
+          .setConverter(new GsonConverter(givingParser))
+          .build();
 		Venmo venmo = venmoAdapter.create(Venmo.class);
-		FixFolkData data = new FixFolkDataImpl(new MongoClient(), configuration.getDb());
+      JustGiving justGiving = givingAdapter.create(JustGiving.class);
+		FixFolkData data = new FixFolkDataImpl(new MongoClient(), configuration.getDb())
+          .setJustGivingBase(configuration.getBaseJustGivingFormUrl())
+          .setRedirectUrl(configuration.getJustGivingRedirectUrl());
 		List<BaseResource> resources = Arrays.asList(
 				new IndexResource(data, configuration),
 				new AccountResource(data, venmo, configuration),
