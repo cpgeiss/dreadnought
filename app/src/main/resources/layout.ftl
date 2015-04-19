@@ -3,9 +3,17 @@
 <html>
 	<head> 
 		<title>Fix My Folks</title>
-    <link rel="stylesheet" type="text/css" src="/assests/css/bootstrap.main.css"/>
-    <link rel="stylesheet" type="text/css" src="/assests/css/bootstrap-theme.main.css"/>
-    <link rel="stylesheet" type="text/css" src="/assests/css/core.css"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="dreadnought">
+    <link rel="icon" href="/assets/favicon.ico">
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/assets/css/core.css"/>
 	</head>
    
 	<body>
