@@ -18,5 +18,10 @@
       <artifactId>justgiving</artifactId>
       <version>${project.parent.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.fixmyfolks</groupId>
+      <artifactId>venmo</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
   </dependencies>
 </project>

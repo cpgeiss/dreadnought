@@ -5,8 +5,7 @@ import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
 
-import com.fixmyfolks.data.model.Folk;
-import com.fixmyfolks.data.model.Fixer;
+import com.fixmyfolks.data.model.Account;
 import com.fixmyfolks.data.model.Problem;
 import com.mongodb.MongoClient;
 
@@ -21,8 +20,7 @@ public class FixFolkDataImpl implements FixFolkData {
     private Morphia createMorphia() {
         Morphia morphia = new Morphia();
         morphia.map(
-            Folk.class,
-            Fixer.class,
+            Account.class,
             Problem.class
         );
         return morphia;
@@ -32,20 +30,12 @@ public class FixFolkDataImpl implements FixFolkData {
         return datastore.find(Problem.class);
     }
 
-    public Query<Fixer> getAllFixers() {
-        return datastore.find(Fixer.class);
+    public Query<Account> getAllAccounts() {
+        return datastore.find(Account.class);
     }
 
-    public Query<Folk> getAllFolks() {
-        return datastore.find(Folk.class);
-    }
-
-    public Folk getFolkById(String id) {
-        return datastore.get(Folk.class, new ObjectId(id));
-    }
-
-    public Fixer getFixerById(String id) {
-        return datastore.get(Fixer.class, new ObjectId(id));
+    public Account getAccountById(String id) {
+        return datastore.get(Account.class, new ObjectId(id));
     }
 
     public Problem getProblemById(String id) {
