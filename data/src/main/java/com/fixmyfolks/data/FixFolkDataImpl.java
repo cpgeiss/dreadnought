@@ -1,5 +1,7 @@
 package com.fixmyfolks.data;
 
+import java.net.URLEncoder;
+
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
@@ -11,10 +13,22 @@ import com.mongodb.MongoClient;
 
 public class FixFolkDataImpl implements FixFolkData {
     private Datastore datastore;
+    private String baseJustGivingBase;
+    private String redirectUrl;
 
     public FixFolkDataImpl(MongoClient mongoClient, String dbName) {
         datastore = createMorphia().createDatastore(mongoClient, dbName);
         datastore.ensureIndexes();
+    }
+
+    public FixFolkDataImpl setJustGivingBase(String baseJustGivingBase) {
+        this.baseJustGivingBase = baseJustGivingBase;
+        return this;
+    }
+
+    public FixFolkDataImpl setRedirectUrl(String redirectUrl) {
+        this.redirectUrl = redirectUrl;
+        return this;
     }
 
     private Morphia createMorphia() {
@@ -25,7 +39,7 @@ public class FixFolkDataImpl implements FixFolkData {
         );
         return morphia;
     }
-    
+
     @Override
     public Query<Problem> getAllProblems() {
         return datastore.find(Problem.class);
@@ -66,4 +80,15 @@ public class FixFolkDataImpl implements FixFolkData {
 		return datastore.find(Account.class).field("token.user.id").equal(id).get();
 	}
 
+    public String getJustGivingDonationFormUrl(String charityId, Double price, String problemId) {
+        String replacedRedirect = redirectUrl.replace("{problemId}", problemId);
+        String replacedBase = baseJustGivingBase
+            .replace("{charityId}", charityId)
+            .replace("{amount}", String.format("%.2f", price));
+        try {
+            return replacedBase.replace("{exitUrl}", URLEncoder.encode(replacedRedirect, "UTF-8"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

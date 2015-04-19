@@ -8,7 +8,6 @@ import retrofit.http.Path;
 
 import com.fixmyfolks.justgiving.model.Category;
 import com.fixmyfolks.justgiving.model.Charity;
-import com.fixmyfolks.justgiving.model.DonationStatus;
 
 public interface JustGiving {
     @GET("/{appId}/v1/charity/categories")
@@ -16,7 +15,4 @@ public interface JustGiving {
 
     @GET("/{appId}/v1/charity/search")
     List<Charity> charitySearch(@Path("appId") String appId, @Query("categoryId") String categoryId);
-
-    @GET("/{appId}/v1/donation/{donationId}/status")
-    DonationStatus donationStatus(@Path("appId") String appId, @Path("donationId") String donationId);
 }
