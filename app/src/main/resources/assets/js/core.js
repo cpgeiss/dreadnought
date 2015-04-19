@@ -10,8 +10,10 @@
 // EVENT HANDLERS //
 // Ready
 $(document).ready(function() {
-	$('header .menu').mouseup(function() {
+	$('header .menu').click(function(e) {
+		e.preventDefault();
 		$('header .menu-links').fadeToggle(300);
+		return false;
 	});
 	$('section.home').hide().delay(500).fadeIn(1500);
 	$('.bg-cover').hide().fadeIn(2000);

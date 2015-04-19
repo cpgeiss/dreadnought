@@ -12,6 +12,7 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -37,11 +38,18 @@ public class ProblemResource extends BaseResource {
 		Account account = getSessionAccount(session);
 		View view = null;
 		if (account.isFixer()) {
-			view = new ProblemFixerIndexView(account, getData().getAvailableProblemsForFixer(account).asList());
+			view = new ProblemFixerIndexView(account, getData().getProblemsForFixer(account).asList());
 		} else {
 			view = new ProblemFolkIndexView(account, getData().getProblemsForFolk(account).asList()); 
 		}
 		return view;
+	}
+	
+	@GET
+	@Path("/current")
+	public ProblemFixerCurrentView currentProblems(@Session HttpSession session) {
+		Account account = getSessionAccount(session);
+		return new ProblemFixerCurrentView(account, getData().getAvailableProblemsForFixer(account).asList());
 	}
 	
 	@GET

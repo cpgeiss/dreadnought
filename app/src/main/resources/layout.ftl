@@ -26,6 +26,7 @@
 				<a href="#" class="menu">Menu</a>
 				<ul class="menu-links">
 					<#if !account.fixer><li><a href="/problems/new">Start a Problem</a></li></#if>
+					<#if account.fixer><li><a href="/problems/current">View Current Problems</a></li></#if>
 					<li><a href="/problems">Problem History</a></li>
 					<li><a href="/accounts/logout">Log out</a></li>
 				</ul>

@@ -80,7 +80,7 @@ public class AccountResource extends BaseResource {
 		account.setToken(token);
 		getData().save(account);
 		session.setAttribute("id", account.getId().toString());
-		String uri = account.isFixer() ? "/problems" : "/problems/new";
+		String uri = account.isFixer() ? "/problems/current" : "/problems/new";
 		return Response.seeOther(URI.create(uri)).build();
 	}
 	
