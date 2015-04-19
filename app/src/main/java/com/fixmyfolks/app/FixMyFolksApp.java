@@ -43,6 +43,7 @@ public class FixMyFolksApp extends Application<AppConfiguration> {
 			.create();
 		RestAdapter venmoAdapter = new RestAdapter.Builder()
 			.setEndpoint(configuration.getVenmoClientEndpoint())
+			.setLogLevel(RestAdapter.LogLevel.FULL)
 			.setConverter(new GsonConverter(gson))
 			.build();
       Gson givingParser = new GsonBuilder()
