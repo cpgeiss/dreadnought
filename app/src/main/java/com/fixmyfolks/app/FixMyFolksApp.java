@@ -1,12 +1,15 @@
 package com.fixmyfolks.app;
 
 import io.dropwizard.Application;
+import io.dropwizard.jersey.sessions.SessionFactoryProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
 
 import java.util.Arrays;
 import java.util.List;
+
+import org.eclipse.jetty.server.session.SessionHandler;
 
 import com.fixmyfolks.app.resources.AccountResource;
 import com.fixmyfolks.app.resources.BaseResource;
@@ -26,6 +29,10 @@ public class FixMyFolksApp extends Application<AppConfiguration> {
 		for (BaseResource resource : resources) {
 			environment.jersey().register(resource);
 		}
+		
+		// Add session support
+		environment.jersey().register(SessionFactoryProvider.class);
+	    environment.servlets().setSessionHandler(new SessionHandler());
 	}
 	
 	@Override

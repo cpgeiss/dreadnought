@@ -20,6 +20,12 @@ public class AppConfiguration extends Configuration {
 	@NotEmpty
 	private String venmoClientSecret;
 	
+	@NotEmpty
+	private String sendGridUsername;
+	
+	@NotEmpty
+	private String sendGridPassword;
+	
 	@JsonProperty
 	public String getVersion() {
 		return version;
@@ -38,6 +44,16 @@ public class AppConfiguration extends Configuration {
 	@JsonProperty
 	public String getVenmoClientSecret() {
 		return venmoClientSecret;
+	}
+
+	@JsonProperty
+	public String getSendGridUsername() {
+		return sendGridUsername;
+	}
+
+	@JsonProperty
+	public String getSendGridPassword() {
+		return sendGridPassword;
 	}
 	
 }
