@@ -7,4 +7,16 @@
 	</parent>
 	<artifactId>data</artifactId>
 	<name>Fix My Folks Data</name>
+  <dependencies>
+    <dependency>
+      <groupId>org.mongodb.morphia</groupId>
+      <artifactId>morphia</artifactId>
+      <version>0.110</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fixmyfolks</groupId>
+      <artifactId>justgiving</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+  </dependencies>
 </project>
