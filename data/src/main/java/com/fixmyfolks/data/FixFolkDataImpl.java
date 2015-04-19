@@ -25,24 +25,40 @@ public class FixFolkDataImpl implements FixFolkData {
         );
         return morphia;
     }
-
+    
+    @Override
     public Query<Problem> getAllProblems() {
         return datastore.find(Problem.class);
     }
 
+    @Override
     public Query<Account> getAllAccounts() {
         return datastore.find(Account.class);
     }
 
+    @Override
     public Account getAccountById(String id) {
         return datastore.get(Account.class, new ObjectId(id));
     }
 
+    @Override
     public Problem getProblemById(String id) {
         return datastore.get(Problem.class, new ObjectId(id));
     }
+    
+    @Override
+	public Iterable<Problem> getProblemsForFolk(Account account) {
+		return datastore.find(Problem.class).field("folk").equal(account.getId());
+	}
 
+	@Override
+	public Iterable<Problem> getProblemsForFixer(Account account) {
+		return datastore.find(Problem.class).field("fixer").equal(account.getId());
+	}
+
+	@Override
     public void save(Object thing) {
         datastore.save(thing);
     }
+
 }

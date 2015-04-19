@@ -18,6 +18,7 @@ public class Account {
     private OAuthToken token;
     @Embedded
     private Actor user;
+    private boolean fixer;
 
     public ObjectId getId() {
         return id;
@@ -50,5 +51,13 @@ public class Account {
     public void setToken(OAuthToken token) {
         this.token = token;
     }
+
+	public boolean isFixer() {
+		return fixer;
+	}
+
+	public void setFixer(boolean fixer) {
+		this.fixer = fixer;
+	}
 
 }

@@ -8,5 +8,7 @@ public interface FixFolkData {
     public Iterable<Problem> getAllProblems();
     public Account getAccountById(String id);
     public Problem getProblemById(String id);
+    public Iterable<Problem> getProblemsForFolk(Account account);
+    public Iterable<Problem> getProblemsForFixer(Account account);
     public void save(Object thing);
 }
