@@ -2,6 +2,8 @@ package com.fixmyfolks.app;
 
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
+import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.jersey.sessions.SessionFactoryProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -84,7 +86,10 @@ public class FixMyFolksApp extends Application<AppConfiguration> {
 	public void initialize(Bootstrap<AppConfiguration> bootstrap) {
 		super.initialize(bootstrap);
 		bootstrap.addBundle(new ViewBundle<AppConfiguration>());
-      bootstrap.addBundle(new AssetsBundle("/assets/"));
+		bootstrap.addBundle(new AssetsBundle("/assets/"));
+		bootstrap.setConfigurationSourceProvider(
+				new SubstitutingSourceProvider(bootstrap.getConfigurationSourceProvider(),
+						new EnvironmentVariableSubstitutor()));
 	}
 
 	public static void main(String[] args) throws Exception {

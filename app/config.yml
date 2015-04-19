@@ -1,11 +1,17 @@
 version: 1.0.0
-db: fixmyfolks
-venmoClientId: 
-venmoClientSecret: 
+db: ${MONGO_DB}
+venmoClientId: ${VENMO_CLIENT_ID}
+venmoClientSecret: ${VENMO_CLIENT_SECRET}
+sendGridUsername: ${SEND_GRID_USERNAME}
+sendGridPassword: ${SEND_GRID_PASSWORD}
+givingAppId: ${GIVING_APP_ID}
+appDomain: ${APP_DOMAIN}
+baseJustGivingFormUrl: ${BASE_JUST_GIVING_FORM_URL}
+justGivingRedirectUrl: ${JUST_GIVING_REDIRECT_URL}
 server:
   applicationConnectors:
   - type: http 
-    port: 8000
+    port: ${APPLICATION_PORT}
   adminConnectors:
   - type: http
-    port: 8001
+    port: ${ADMIN_PORT}
