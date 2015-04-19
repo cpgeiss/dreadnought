@@ -17,11 +17,34 @@
 	</head>
    
 	<body>
-		<div id="nav"><a href="/">Home</a></div>
-		<@page_body/>
+		<header class="inside">
+			<img class="logo" src="/assets/images/fixmyfolks-logo.png" alt="FixMyFolks" />
+			<a href="#" class="menu">Menu</a>
+			<ul class="menu-links">
+				<li><a href="#">Account Settings</a></li>
+				<li><a href="#">Problem History</a></li>
+				<li><a href="#">Log out</a></li>
+			</ul>
+			<div class="shadow"></div>
+		</header>
+		
+		<section class="content">
+			<@page_body/>
+		</section>
+
+		<footer class="inside">
+			<div><sup>$</sup>15,320 DONATIONS TO DATE</div>
+			<ul>
+				<li>Chris G. donated $25 to St. Jude Children’s Hospital</li>
+			</ul>
+		</footer>
+		
+		<div class="preload">
+			<img src="/assets/images/menu-icon-hover.png" />
+		</div>
 	</body>
 	
 	<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-  <script src="/assets/js/bootstrap.js"></script>
+	<script src="/assets/js/bootstrap.js"></script>
 </html>
 </#macro>

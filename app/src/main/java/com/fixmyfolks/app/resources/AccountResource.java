@@ -1,9 +1,8 @@
 package com.fixmyfolks.app.resources;
 
-import java.net.URI;
-
 import io.dropwizard.jersey.sessions.Session;
-import io.dropwizard.views.View;
+
+import java.net.URI;
 
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.GET;
@@ -47,13 +46,7 @@ public class AccountResource extends BaseResource {
 		account.setToken(token);
 		getData().save(account);
 		session.setAttribute("id", account.getId().toString());
-		return Response.seeOther(URI.create("/accounts/show")).build();
-	}
-	
-	@GET
-	@Path("/show")
-	public View show(@Session HttpSession session) {
-		return null;
+		return Response.seeOther(URI.create("/problems")).build();
 	}
 	
 }

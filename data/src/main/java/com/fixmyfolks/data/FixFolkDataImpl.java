@@ -47,12 +47,12 @@ public class FixFolkDataImpl implements FixFolkData {
     }
     
     @Override
-	public Iterable<Problem> getProblemsForFolk(Account account) {
+	public Query<Problem> getProblemsForFolk(Account account) {
 		return datastore.find(Problem.class).field("folk").equal(account.getId());
 	}
 
 	@Override
-	public Iterable<Problem> getProblemsForFixer(Account account) {
+	public Query<Problem> getProblemsForFixer(Account account) {
 		return datastore.find(Problem.class).field("fixer").equal(account.getId());
 	}
 

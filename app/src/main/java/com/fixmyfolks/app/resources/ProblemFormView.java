@@ -2,9 +2,9 @@ package com.fixmyfolks.app.resources;
 
 import io.dropwizard.views.View;
 
-public class ProblemIndexView extends View {
+public class ProblemFormView extends View {
 
-	public ProblemIndexView() {
+	public ProblemFormView() {
 		super("problem_form.ftl");
 	}
 
