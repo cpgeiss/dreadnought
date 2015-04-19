@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class AppConfiguration extends Configuration {
     public static final String DEFAULT_VENMO_ENDPOINT = "https://api.venmo.com";
     public static final String DEFAULT_GIVING_ENDPOINT = "https://api.justgiving.com";
+    public static final String DEFAULT_PROBLEM_SUBJECT = "New Problem In The {category} Category";
+    public static final String DEFAULT_PROBLEM_BODY = "email/email.html";
 
 	@NotEmpty
 	private String version;
@@ -25,6 +27,10 @@ public class AppConfiguration extends Configuration {
     private String venmoClientEndpoint = DEFAULT_VENMO_ENDPOINT;
 
     private String givingEndpoint = DEFAULT_GIVING_ENDPOINT;
+
+    private String sendGridBody = DEFAULT_PROBLEM_BODY;
+
+    private String sendGridFrom = "noreply@fixmyfolks.com";
 	
 	@NotEmpty
 	private String sendGridUsername;
@@ -40,6 +46,8 @@ public class AppConfiguration extends Configuration {
 
     @NotEmpty
     private String justGivingRedirectUrl;
+
+    private String sendGridSubject = DEFAULT_PROBLEM_SUBJECT;
 	
 	@JsonProperty
 	public String getVersion() {
@@ -94,6 +102,21 @@ public class AppConfiguration extends Configuration {
     @JsonProperty
     public String getJustGivingRedirectUrl() {
         return justGivingRedirectUrl;
+    }
+
+    @JsonProperty
+    public String getSendGridSubject() {
+        return sendGridSubject;
+    }
+
+    @JsonProperty
+    public String getSendGridBody() {
+        return sendGridBody;
+    }
+
+    @JsonProperty
+    public String getSendGridFrom() {
+        return sendGridFrom;
     }
 	
 }
