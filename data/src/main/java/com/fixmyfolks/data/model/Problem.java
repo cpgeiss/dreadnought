@@ -19,6 +19,7 @@ public class Problem {
     private ObjectId folk;
     @Indexed
     private ObjectId fixer;
+    private boolean donationReceived;
 
     public ObjectId getId() {
         return id;
@@ -74,6 +75,14 @@ public class Problem {
 
 	public void setFixer(ObjectId fixer) {
 		this.fixer = fixer;
+	}
+
+	public boolean isDonationReceived() {
+		return donationReceived;
+	}
+
+	public void setDonationReceived(boolean donationReceived) {
+		this.donationReceived = donationReceived;
 	}
 
 }

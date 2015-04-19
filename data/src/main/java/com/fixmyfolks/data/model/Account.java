@@ -3,21 +3,21 @@ package com.fixmyfolks.data.model;
 import java.util.List;
 
 import org.bson.types.ObjectId;
-import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.Index;
 
-import com.fixmyfolks.venmo.model.Actor;
+import com.fixmyfolks.venmo.model.OAuthToken;
 
 @Entity("accounts")
+@Index("token.user.id")
 public class Account {
     @Id
     private ObjectId id;
     private List<String> interests;
     @Embedded
     private OAuthToken token;
-    @Embedded
-    private Actor user;
     private boolean fixer;
 
     public ObjectId getId() {
@@ -34,14 +34,6 @@ public class Account {
 
     public void setInterests(List<String> interests) {
         this.interests = interests;
-    }
-
-    public Actor getUser() {
-        return user;
-    }
-
-    public void setUser(Actor user) {
-        this.user = user;
     }
 
     public OAuthToken getToken() {

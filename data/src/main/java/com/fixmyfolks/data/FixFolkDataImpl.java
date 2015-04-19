@@ -61,4 +61,9 @@ public class FixFolkDataImpl implements FixFolkData {
         datastore.save(thing);
     }
 
+	@Override
+	public Account getAccountByVenmoId(String id) {
+		return datastore.find(Account.class).field("token.user.id").equal(id).get();
+	}
+
 }
