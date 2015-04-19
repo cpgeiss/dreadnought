@@ -21,7 +21,7 @@
    
 	<body>
 		<header class="inside">
-			<a href="/problems"><img class="logo" src="/assets/images/fixmyfolks-logo.png" alt="FixMyFolks" /></a>
+			<a href="/"><img class="logo" src="/assets/images/fixmyfolks-logo.png" alt="FixMyFolks" /></a>
 			<#if account??>
 				<a href="#" class="menu">Menu</a>
 				<ul class="menu-links">
