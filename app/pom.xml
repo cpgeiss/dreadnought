@@ -7,4 +7,11 @@
 	</parent>
 	<artifactId>app</artifactId>
 	<name>Fix My Folks App</name>
+  <dependencies>
+    <dependency>
+      <groupId>com.sendgrid</groupId>
+      <artifactId>sendgrid-java</artifactId>
+      <version>1.1.0</version>
+    </dependency>
+  </dependencies>
 </project>
