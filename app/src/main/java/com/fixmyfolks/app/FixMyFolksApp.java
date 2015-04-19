@@ -29,6 +29,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 
 public class FixMyFolksApp extends Application<AppConfiguration> {
 
@@ -52,7 +53,14 @@ public class FixMyFolksApp extends Application<AppConfiguration> {
           .build();
 		Venmo venmo = venmoAdapter.create(Venmo.class);
       JustGiving justGiving = givingAdapter.create(JustGiving.class);
-		FixFolkData data = new FixFolkDataImpl(new MongoClient(), configuration.getDb())
+      	MongoClient client = null;
+      	String clientUri = System.getenv("MONGOLAB_URI");
+      	if (clientUri != null) {
+      		client = new MongoClient(new MongoClientURI(clientUri));
+      	} else {
+      		client = new MongoClient();
+      	}
+		FixFolkData data = new FixFolkDataImpl(client, configuration.getDb())
           .setJustGivingBase(configuration.getBaseJustGivingFormUrl())
           .setRedirectUrl(configuration.getJustGivingRedirectUrl());
 		List<BaseResource> resources = Arrays.asList(

@@ -12,6 +12,7 @@ import com.fixmyfolks.data.model.Account;
 import com.fixmyfolks.data.model.Problem;
 import com.fixmyfolks.justgiving.model.SearchResult;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoException;
 
 public class FixFolkDataImpl implements FixFolkData {
     private Datastore datastore;
@@ -20,7 +21,11 @@ public class FixFolkDataImpl implements FixFolkData {
 
     public FixFolkDataImpl(MongoClient mongoClient, String dbName) {
         datastore = createMorphia().createDatastore(mongoClient, dbName);
-        datastore.ensureIndexes();
+        try {
+        	datastore.ensureIndexes();
+        } catch (MongoException e) {
+        	// Ignore, running on MongoLab
+        }
     }
 
     public FixFolkDataImpl setJustGivingBase(String baseJustGivingBase) {
