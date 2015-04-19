@@ -6,6 +6,8 @@ public class Actor {
     private String username;
     private String first_name;
     private String last_name;
+    private String email;
+    private String phone;
     private String display_name;
     private String about;
     private String profile_picture_url;
@@ -26,6 +28,22 @@ public class Actor {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Date getDateJoined() {
