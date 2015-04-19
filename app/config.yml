@@ -9,9 +9,9 @@ appDomain: ${APP_DOMAIN}
 baseJustGivingFormUrl: ${BASE_JUST_GIVING_FORM_URL}
 justGivingRedirectUrl: ${JUST_GIVING_REDIRECT_URL}
 server:
-  applicationConnectors:
-  - type: http 
+  type: simple
+  applicationContextPath: /
+  adminContextPath: /admin
+  connector:
+    type: http
     port: ${APPLICATION_PORT}
-  adminConnectors:
-  - type: http
-    port: ${ADMIN_PORT}
