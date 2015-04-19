@@ -1,9 +1,9 @@
 <#include "/layout.ftl">
 <#macro page_body>
 
-<h1 class="waiting text-center">
+<h1 class="text-center">
 	<span class="waiting">Someone to help should be coming soon...</span>
-	<span class="available">Thanks for using Fix My Folks!</span>
+	<span class="available">Thanks for using FixMyFolks!</span>
 </h1>
 <div class="text-center available"><a href="/problems/fixed?id=${problem.id}" class="btn btn-lg btn-success">My Problem Was Fixed</a></div>
 

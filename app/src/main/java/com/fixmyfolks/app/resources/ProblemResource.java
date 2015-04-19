@@ -58,6 +58,16 @@ public class ProblemResource extends BaseResource {
 		return new ProblemFormView(getSessionAccount(session));
 	}
 	
+	@GET
+	@Path("/image/{problemId}")
+	public Response displayAcceptImage(@PathParam("problemId") String id) {
+		Problem problem = getData().getProblemById(id.substring(0, id.lastIndexOf(".")));
+		String uri = "assets/images/email/";
+		uri += problem.getFixer() != null ? "already_fixed.png" : "want_to_fix.png";
+		InputStream input = getClass().getClassLoader().getResourceAsStream(uri);
+		return Response.ok(input, "image/png").header("Cache-Control", "private, max-age=0, must-revalidate").build();
+	}
+	
 	@POST
 	public FolkScreenShareView createProblem(@FormParam("tag") String tag, @FormParam("description") String description, @FormParam("amount") String amount, @Session HttpSession session) {
 		Account account = getSessionAccount(session);
@@ -84,8 +94,8 @@ public class ProblemResource extends BaseResource {
               .replace("{category}", problem.getTag())
               .replace("{amount}", String.format("%.2f", problem.getPrice()))
               .replace("{description}", description)
-              .replace("{fixLink}", config.getAppDomain() + "/problems/start?problemId=" + problem.getId().toString())
-              .replace("{buttonImage}", config.getAppDomain() + "/problems/image/" + problem.getId().toString()));
+              .replace("{fixLink}", config.getAppDomain() + "/problems/start?id=" + problem.getId().toString())
+              .replace("{buttonImage}", config.getAppDomain() + "/problems/image/" + problem.getId().toString() + ".png"));
           for (Account fixer : getData().getFixersInterestedInTag(problem.getTag())) {
               email.addTo(fixer.getToken().getUser().getEmail());
               email.addToName(fixer.getToken().getUser().getFirstName());

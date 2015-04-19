@@ -63,12 +63,12 @@ public class FixFolkDataImpl implements FixFolkData {
     
     @Override
 	public Query<Problem> getProblemsForFolk(Account account) {
-		return datastore.find(Problem.class).field("folk").equal(account.getId());
+		return datastore.find(Problem.class).field("folk").equal(account.getId()).order("-id");
 	}
 
 	@Override
 	public Query<Problem> getProblemsForFixer(Account account) {
-		return datastore.find(Problem.class).field("fixer").equal(account.getId());
+		return datastore.find(Problem.class).field("fixer").equal(account.getId()).order("-id");
 	}
 
 	@Override
@@ -86,7 +86,8 @@ public class FixFolkDataImpl implements FixFolkData {
 		return datastore.find(Problem.class)
 				.field("fixer").doesNotExist()
 				.field("fixed").notEqual(true)
-				.field("tag").hasAnyOf(account.getInterests());
+				.field("tag").hasAnyOf(account.getInterests())
+				.order("-id");
 	}
 
 	@Override
