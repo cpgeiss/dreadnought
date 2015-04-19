@@ -43,7 +43,7 @@ public class FixMyFolksApp extends Application<AppConfiguration> {
 		Venmo venmo = venmoAdapter.create(Venmo.class);
 		FixFolkData data = new FixFolkDataImpl(new MongoClient(), configuration.getDb());
 		List<BaseResource> resources = Arrays.asList(
-				new IndexResource(data, configuration.getVenmoClientId(), configuration.getVenmoClientSecret()),
+				new IndexResource(data, configuration),
 				new AccountResource(data, venmo, configuration),
 				new ProblemResource(data));
 		for (BaseResource resource : resources) {

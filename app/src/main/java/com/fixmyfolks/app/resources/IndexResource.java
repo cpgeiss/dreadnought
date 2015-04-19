@@ -9,19 +9,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.fixmyfolks.app.AppConfiguration;
 import com.fixmyfolks.data.FixFolkData;
 
 @Path("/")
 @Produces(MediaType.TEXT_HTML)
 public class IndexResource extends BaseResource {
 	
-	private String venmoClientId;
-	private String venmoClientSecret;
+	private AppConfiguration config;
 	
-	public IndexResource(FixFolkData data, String venmoClientId, String venmoClientSecret) {
+	public IndexResource(FixFolkData data, AppConfiguration config) {
 		super(data);
-		this.venmoClientId = venmoClientId;
-		this.venmoClientSecret = venmoClientSecret;
+		this.config = config;
 	}
 
 	@GET
@@ -33,8 +32,7 @@ public class IndexResource extends BaseResource {
 	@Path("/select")
 	public VenmoLoginView selectType(@QueryParam("type") String type, @Session HttpSession session) {
 		session.setAttribute("type", type);
-		return new VenmoLoginView(type, venmoClientId);
-//		return Response.seeOther(URI.create(return Response.seeOther(location))).build();
+		return new VenmoLoginView(type, config.getVenmoClientId());
 	}
 	
 }
