@@ -40,8 +40,9 @@
 
 		<footer>
 			<div><sup>$</sup>15,320 DONATIONS TO DATE</div>
-			<ul>
+			<ul class="cycle-slideshow" data-cycle-slides="> li" data-cycle-speed="1500" data-cycle-timeout="8000">
 				<li>Chris G. donated $25 to St. Jude Children’s Hospital</li>
+				<li>Marc B. donated $20 to World Wildlife Foundation</li>
 			</ul>
 		</footer>
 		
@@ -51,6 +52,7 @@
 	</body>
 	
 	<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script type='text/javascript' src="/assets/js/jquery.cycle2.min.js"></script>
 	<script src="/assets/js/bootstrap.js"></script>
 	<script src="/assets/js/core.js"></script>
 	<@page_js/>
