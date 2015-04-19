@@ -40,7 +40,7 @@ public class FixFolkDataImpl implements FixFolkData {
         );
         return morphia;
     }
-
+    
     @Override
     public Query<Problem> getAllProblems() {
         return datastore.find(Problem.class);
@@ -81,6 +81,19 @@ public class FixFolkDataImpl implements FixFolkData {
 		return datastore.find(Account.class).field("token.user.id").equal(id).get();
 	}
 
+	@Override
+	public Query<Problem> getAvailableProblemsForFixer(Account account) {
+		return datastore.find(Problem.class)
+				.field("fixer").doesNotExist()
+				.field("fixed").notEqual(true)
+				.field("tag").hasAnyOf(account.getInterests());
+	}
+
+	@Override
+	public Query<Account> getFixersInterestedInTag(String tag) {
+		return datastore.find(Account.class).field("interests").contains(tag);
+	}
+
     public String getJustGivingDonationFormUrl(String charityId, Double price, String problemId) {
         String replacedRedirect = redirectUrl.replace("{problemId}", problemId);
         String replacedBase = baseJustGivingBase
@@ -90,7 +103,7 @@ public class FixFolkDataImpl implements FixFolkData {
             return replacedBase.replace("{exitUrl}", URLEncoder.encode(replacedRedirect, "UTF-8"));
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }
+	}
     }
 
     public void flagDonationOnProblem(String problemId) {

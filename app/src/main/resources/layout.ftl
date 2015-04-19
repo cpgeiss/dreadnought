@@ -1,3 +1,6 @@
+<#macro page_js>
+</#macro>
+
 <#macro display_page>
 <!doctype html>
 <html>
@@ -46,5 +49,6 @@
 	
 	<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 	<script src="/assets/js/bootstrap.js"></script>
+	<@page_js/>
 </html>
 </#macro>

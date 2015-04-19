@@ -3,6 +3,8 @@ package com.fixmyfolks.app.resources;
 import io.dropwizard.jersey.sessions.Session;
 
 import java.net.URI;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.GET;
@@ -43,6 +45,31 @@ public class AccountResource extends BaseResource {
 			account = new Account();
 		}
 		account.setFixer(type.equalsIgnoreCase("fixer"));
+		if (account.isFixer()) {
+			List<String> interests = Arrays.asList(
+					"Phone-iPhone",
+					"Phone-Other",
+					"Tablet-iPad",
+					"Tablet-Other",
+					"Mac-Email",
+					"Mac-Internet",
+					"Mac-Office",
+					"Mac-Music",
+					"Mac-Photos",
+					"Mac-Printer",
+					"Mac-Other",
+					"Windows-Email",
+					"Windows-Internet",
+					"Windows-Office",
+					"Windows-Music",
+					"Windows-Photos",
+					"Windows-Printer",
+					"Windows-Other",
+					"Television-DVR",
+					"Television-Movies",
+					"Television-Other");
+			account.setInterests(interests);
+		}
 		account.setToken(token);
 		getData().save(account);
 		session.setAttribute("id", account.getId().toString());

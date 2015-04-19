@@ -4,13 +4,15 @@ import io.dropwizard.jersey.sessions.Session;
 import io.dropwizard.views.View;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.fixmyfolks.data.FixFolkData;
@@ -27,13 +29,13 @@ public class ProblemResource extends BaseResource {
 	@GET
 	public View index(@Session HttpSession session) {
 		Account account = getSessionAccount(session);
-		List<Problem> problems = null;
+		View view = null;
 		if (account.isFixer()) {
-			problems = getData().getProblemsForFixer(account).asList();
+			view = new ProblemFixerIndexView(getData().getAvailableProblemsForFixer(account).asList());
 		} else {
-			problems = getData().getProblemsForFolk(account).asList();
+			view = new ProblemFolkIndexView(getData().getProblemsForFolk(account).asList()); 
 		}
-		return new ProblemFolkIndexView(problems);
+		return view;
 	}
 	
 	@GET
@@ -44,14 +46,49 @@ public class ProblemResource extends BaseResource {
 	}
 	
 	@POST
-	public Response createProblem(@FormParam("tag") String tag, @FormParam("description") String description, @FormParam("amount") String amount, @Session HttpSession session) {
+	public FolkScreenShareView createProblem(@FormParam("tag") String tag, @FormParam("description") String description, @FormParam("amount") String amount, @Session HttpSession session) {
 		Account account = getSessionAccount(session);
-		Problem problem = new Problem();
+		final Problem problem = new Problem();
 		problem.setFolk(account.getId());
 		problem.setTag(tag);
 		problem.setDescription(description);
 		problem.setPrice(Double.parseDouble(amount));
 		getData().save(problem);
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+//				for (Account fixer : getData().getFixersInterestedInTag(problem.getTag())) {
+					// TODO SendGrid integration here
+//				}
+			}
+		});
+		t.start();
+		return new FolkScreenShareView(problem);
+	}
+	
+	@GET
+	@Path("/start")
+	public ScreenShareView startScreenShare(@QueryParam("id") String id, @Session HttpSession session) {
+		Problem problem = getData().getProblemById(id);
+		Account account = getSessionAccount(session);
+		problem.setFixer(account.getId());
+		getData().save(problem);
+		return new ScreenShareView(problem);
+	}
+	
+	@GET
+	@Path("/fixed")
+	public Response problemFixed(@QueryParam("id") String id, @Session HttpSession session) {
+		Problem problem = getData().getProblemById(id);
+		problem.setFixed(true);
+		getData().save(problem);
 		return Response.seeOther(URI.create("/problems")).build();
 	}
+	
+	@GET
+	@Path("/status")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Problem problemStatus(@QueryParam("id") String id) {
+		return getData().getProblemById(id);
+	}
+	
 }
