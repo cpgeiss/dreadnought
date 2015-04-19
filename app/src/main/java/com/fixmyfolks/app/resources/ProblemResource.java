@@ -66,6 +66,7 @@ public class ProblemResource extends BaseResource {
           SendGrid gridMail = new SendGrid(config.getSendGridUsername(), config.getSendGridPassword());
           SendGrid.Email email = new SendGrid.Email();
           email.setFrom(config.getSendGridFrom());
+          email.setFromName("Fix My Folks");
           email.setSubject(config.getSendGridSubject().replace("{category}", problem.getTag()));
           String description = problem.getDescription();
           if (description.length() > 100) {
