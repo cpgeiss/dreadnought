@@ -73,9 +73,10 @@ public class GivingResource extends BaseResource {
             @Override
             public void run() {
                 Problem problem = getData().getProblemById(problemId);
+                Account folk = getData().getAccountById(problem.getFolk().toString());
                 Account fixer = getData().getAccountById(problem.getFixer().toString());
                 SearchResult charity = giving.charity(config.getGivingAppId(), charityId);
-                venmo.makePayment(fixer.getToken().getAccessToken(), fixer.getToken().getUser().getId(), problem.getPrice().toString(), "Fixed - " + problem.getDescription());
+                venmo.makePayment(folk.getToken().getAccessToken(), fixer.getToken().getUser().getId(), problem.getPrice().toString(), "Fixed - " + problem.getDescription());
                 getData().flagDonationOnProblem(problemId, charity);
             }
         });
