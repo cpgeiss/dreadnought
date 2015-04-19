@@ -69,15 +69,15 @@ public class GivingResource extends BaseResource {
     @GET
     @Path("/donate/{problemId}/{charityId}")
     public Response donate(@PathParam("problemId") final String problemId, @PathParam("charityId") final String charityId) {
+    	Problem problem = getData().getProblemById(problemId);
+        Account folk = getData().getAccountById(problem.getFolk().toString());
+        Account fixer = getData().getAccountById(problem.getFixer().toString());
+        SearchResult charity = giving.charity(config.getGivingAppId(), charityId);
+        getData().flagDonationOnProblem(problemId, charity);
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                Problem problem = getData().getProblemById(problemId);
-                Account folk = getData().getAccountById(problem.getFolk().toString());
-                Account fixer = getData().getAccountById(problem.getFixer().toString());
-                SearchResult charity = giving.charity(config.getGivingAppId(), charityId);
                 venmo.makePayment(folk.getToken().getAccessToken(), fixer.getToken().getUser().getId(), problem.getPrice().toString(), "Fixed - " + problem.getDescription());
-                getData().flagDonationOnProblem(problemId, charity);
             }
         });
         t.start();
