@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AppConfiguration extends Configuration {
+    public static final String DEFAULT_VENMO_ENDPOINT = "https://api.venmo.com";
 
 	@NotEmpty
 	private String version;
@@ -14,11 +15,13 @@ public class AppConfiguration extends Configuration {
 	@NotEmpty
 	private String db;
 	
-	@NotEmpty
-	private String venmoClientId;
+	private String venmoClientId = DEFAULT_VENMO_ENDPOINT;
 	
 	@NotEmpty
 	private String venmoClientSecret;
+
+    @NotEmpty
+    private String venmoClientEndpoint;
 	
 	@NotEmpty
 	private String sendGridUsername;
@@ -55,5 +58,10 @@ public class AppConfiguration extends Configuration {
 	public String getSendGridPassword() {
 		return sendGridPassword;
 	}
+
+    @JsonProperty
+    public String getVenmoClientEndpoint() {
+        return venmoClientEndpoint;
+    }
 	
 }
