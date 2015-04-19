@@ -67,8 +67,17 @@ public class ProblemResource extends BaseResource {
           SendGrid gridMail = new SendGrid(config.getSendGridUsername(), config.getSendGridPassword());
           SendGrid.Email email = new SendGrid.Email();
           email.setFrom(config.getSendGridFrom());
-          email.setSubject(config.getSendGridSubject().replace("{replace}", problem.getTag()));
-          email.setHtml(body);
+          email.setSubject(config.getSendGridSubject().replace("{category}", problem.getTag()));
+          String description = problem.getDescription();
+          if (description.length() > 100) {
+              description = description.substring(0, 100) + "...";
+          }
+          email.setHtml(body
+              .replace("{category}", problem.getTag())
+              .replace("{amount}", String.format("%.2f", problem.getPrice()))
+              .replace("{description}", description)
+              .replace("{fixLink}", config.getAppDomain() + "/problems/start?problemId=" + problem.getId().toString())
+              .replace("{buttonImage}", config.getAppDomain() + "/problems/image/" + problem.getId().toString()));
           for (Account fixer : getData().getFixersInterestedInTag(problem.getTag())) {
               email.addTo(fixer.getToken().getUser().getEmail());
               email.addToName(fixer.getToken().getUser().getFirstName());

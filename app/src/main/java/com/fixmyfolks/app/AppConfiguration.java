@@ -24,6 +24,9 @@ public class AppConfiguration extends Configuration {
 	@NotEmpty
 	private String venmoClientSecret;
 
+    @NotEmpty
+    private String appDomain;
+
     private String venmoClientEndpoint = DEFAULT_VENMO_ENDPOINT;
 
     private String givingEndpoint = DEFAULT_GIVING_ENDPOINT;
@@ -117,6 +120,11 @@ public class AppConfiguration extends Configuration {
     @JsonProperty
     public String getSendGridFrom() {
         return sendGridFrom;
+    }
+
+    @JsonProperty
+    public String getAppDomain() {
+        return appDomain;
     }
 	
 }
