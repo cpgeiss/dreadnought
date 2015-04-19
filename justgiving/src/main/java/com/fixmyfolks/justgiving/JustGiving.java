@@ -14,5 +14,5 @@ public interface JustGiving {
     List<Category> categories(@Path("appId") String appId);
 
     @GET("/{appId}/v1/charity/search")
-    List<Charity> charitySearch(@Path("appId") String appId, @Query("categoryId") String categoryId);
+    List<Charity> charitySearch(@Path("appId") String appId, @Query("q") String search);
 }

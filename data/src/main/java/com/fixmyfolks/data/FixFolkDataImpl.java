@@ -6,6 +6,7 @@ import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.query.Query;
+import org.mongodb.morphia.query.UpdateOperations;
 
 import com.fixmyfolks.data.model.Account;
 import com.fixmyfolks.data.model.Problem;
@@ -90,5 +91,14 @@ public class FixFolkDataImpl implements FixFolkData {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void flagDonationOnProblem(String problemId) {
+        Query<Problem> query = datastore.find(Problem.class)
+            .field("id").equal(new ObjectId(problemId));
+        UpdateOperations<Problem> update = datastore
+            .createUpdateOperations(Problem.class)
+            .set("donationReceived", true);
+        datastore.update(query, update);
     }
 }
