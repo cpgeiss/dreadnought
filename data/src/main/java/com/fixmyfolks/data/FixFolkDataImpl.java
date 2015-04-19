@@ -13,17 +13,19 @@ import com.mongodb.MongoClient;
 public class FixFolkDataImpl implements FixFolkData {
     private Datastore datastore;
 
-    public FixFolkDataImpl(Morphia morphia, MongoClient mongoClient, String dbName) {
-        datastore = morphia.createDatastore(mongoClient, dbName);
+    public FixFolkDataImpl(MongoClient mongoClient, String dbName) {
+        datastore = createMorphia().createDatastore(mongoClient, dbName);
         datastore.ensureIndexes();
     }
 
-    private void mapClasses(Morphia morphia) {
+    private Morphia createMorphia() {
+        Morphia morphia = new Morphia();
         morphia.map(
             Folk.class,
             Fixer.class,
             Problem.class
         );
+        return morphia;
     }
 
     public Query<Problem> getAllProblems() {
