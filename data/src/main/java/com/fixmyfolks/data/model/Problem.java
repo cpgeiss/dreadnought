@@ -1,9 +1,12 @@
 package com.fixmyfolks.data.model;
 
 import org.bson.types.ObjectId;
+import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Indexed;
+
+import com.fixmyfolks.justgiving.model.SearchResult;
 
 @Entity("problems")
 public class Problem {
@@ -18,7 +21,8 @@ public class Problem {
     private ObjectId fixer;
     private boolean fixed;
     private boolean donationReceived;
-    private String charityName;
+    @Embedded
+    private SearchResult charity;
 
     public ObjectId getId() {
         return id;
@@ -84,12 +88,12 @@ public class Problem {
 		this.donationReceived = donationReceived;
 	}
 
-	public String getCharityName() {
-		return charityName;
-	}
+	public SearchResult getCharity() {
+        return charity;
+    }
 
-	public void setCharityName(String charityName) {
-		this.charityName = charityName;
-	}
+    public void setCharity(SearchResult charity) {
+        this.charity = charity;
+    }
 
 }

@@ -46,7 +46,7 @@ public class GivingResource extends BaseResource {
     }
 
     @GET
-    @Path("/form")
+    @Path("/form/{problemId}/{charityId}")
     @Produces(MediaType.TEXT_HTML)
     public GivingCharitiesForm form(@PathParam("problemId") String problemId, @PathParam("charityId") String charityId, @Session HttpSession session) {
         Problem problem = getData().getProblemById(problemId);
@@ -79,6 +79,7 @@ public class GivingResource extends BaseResource {
                 getData().flagDonationOnProblem(problemId, charity);
             }
         });
+        t.start();
         return Response.seeOther(URI.create("/")).build();
     }
 }

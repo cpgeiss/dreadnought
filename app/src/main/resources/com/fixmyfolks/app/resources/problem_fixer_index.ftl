@@ -9,7 +9,7 @@
 			<strong>Description of Problem:</strong><br />
 			${problem.description}
 			<hr />
-			<p><strong><#if problem.donationReceived>$${problem.price} Donated to ${problem.charityName}<#else><a href="/giving/charities?problemId=${problem.id}" class="donate">Please donate $${problem.price}</a></#if></strong></p>
+			<p><strong><#if problem.donationReceived>$${problem.price} Donated to ${problem.charity.name}<#else><a href="/giving/charities?problemId=${problem.id}" class="donate">Please donate $${problem.price}</a></#if></strong></p>
 		</div>
 	</div>
 </div>

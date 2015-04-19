@@ -21,7 +21,7 @@ $(function() {
           $ul.append($('<li/>')
             .append($('<img/>').attr('style', 'width:125px').attr('src', charity.logoUrl).attr('alt', charity.name))
             .append($('<p/>').text(description))
-            .append($('<button/>').attr('type', 'button').attr('href', '/form/' + $ul.data('problemId') + '/' + charity.charityId).addClass('btn btn-success').text('Select'))
+            .append($('<a/>').addClass('btn btn-success').attr('href', '/giving/form/' + $ul.data('problem-id') + '/' + charity.charityId).addClass('btn btn-success').text('Select'))
             .append($('<div/>').addClass('clearfix')));
         });
       }

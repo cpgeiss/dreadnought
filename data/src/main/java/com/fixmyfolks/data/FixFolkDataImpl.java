@@ -69,7 +69,7 @@ public class FixFolkDataImpl implements FixFolkData {
 
 	@Override
 	public Query<Problem> getProblemsForFixer(Account account) {
-		return datastore.find(Problem.class).field("fixer").equal(account.getId()).order("-id");
+		return datastore.find(Problem.class).field("fixer").equal(account.getId()).order("donationReceived, -id");
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class FixFolkDataImpl implements FixFolkData {
 	}
 
     public String getJustGivingDonationFormUrl(String charityId, Double price, String problemId) {
-        String replacedRedirect = redirectUrl.replace("{problemId}", problemId);
+        String replacedRedirect = redirectUrl.replace("{problemId}", problemId).replace("{charityId}", charityId);
         String replacedBase = baseJustGivingBase
             .replace("{charityId}", charityId)
             .replace("{amount}", String.format("%.2f", price));

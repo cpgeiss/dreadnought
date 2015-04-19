@@ -1,5 +1,9 @@
 <#macro page_js>
 </#macro>
+<#macro page_body>
+</#macro>
+<#macro page_body_no_section>
+</#macro>
 
 <#macro display_page>
 <!doctype html>
@@ -34,7 +38,9 @@
 			<div class="shadow"></div>
 		</header>
 		
-		<section class="content" style="margin-bottom: 50px;">
+		<@page_body_no_section/>
+		
+		<section class="content" style="margin-bottom: 20px;">
 			<@page_body/>
 		</section>
 
