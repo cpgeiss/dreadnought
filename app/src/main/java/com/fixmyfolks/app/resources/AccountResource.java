@@ -33,6 +33,13 @@ public class AccountResource extends BaseResource {
 	}
 	
 	@GET
+	@Path("/logout")
+	public Response logout(@Session HttpSession session) {
+		session.removeAttribute("id");
+		return Response.seeOther(URI.create("/")).build();
+	}
+	
+	@GET
 	@Path("/authorize")
 	public Response authorize(@QueryParam("code") String code, @Session HttpSession session) {
 		OAuthToken token = venmo.authenticate(
@@ -73,7 +80,8 @@ public class AccountResource extends BaseResource {
 		account.setToken(token);
 		getData().save(account);
 		session.setAttribute("id", account.getId().toString());
-		return Response.seeOther(URI.create("/problems")).build();
+		String uri = account.isFixer() ? "/problems" : "/problems/new";
+		return Response.seeOther(URI.create(uri)).build();
 	}
 	
 }

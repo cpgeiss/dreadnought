@@ -1,11 +1,9 @@
 package com.fixmyfolks.app.resources;
 
-import io.dropwizard.views.View;
-
-public class IndexView extends View {
+public class IndexView extends SessionView {
 
 	public IndexView() {
-		super("index.ftl");
+		super(null, "index.ftl");
 	}
 
 }

@@ -37,9 +37,9 @@ public class ProblemResource extends BaseResource {
 		Account account = getSessionAccount(session);
 		View view = null;
 		if (account.isFixer()) {
-			view = new ProblemFixerIndexView(getData().getAvailableProblemsForFixer(account).asList());
+			view = new ProblemFixerIndexView(account, getData().getAvailableProblemsForFixer(account).asList());
 		} else {
-			view = new ProblemFolkIndexView(getData().getProblemsForFolk(account).asList()); 
+			view = new ProblemFolkIndexView(account, getData().getProblemsForFolk(account).asList()); 
 		}
 		return view;
 	}
@@ -47,8 +47,7 @@ public class ProblemResource extends BaseResource {
 	@GET
 	@Path("/new")
 	public ProblemFormView newProblem(@Session HttpSession session) {
-		getSessionAccount(session);
-		return new ProblemFormView();
+		return new ProblemFormView(getSessionAccount(session));
 	}
 	
 	@POST
@@ -90,7 +89,7 @@ public class ProblemResource extends BaseResource {
 			}
 		});
 		t.start();
-		return new FolkScreenShareView(problem);
+		return new FolkScreenShareView(account, problem);
 	}
     private String getStringFromInput(InputStream input) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -114,7 +113,14 @@ public class ProblemResource extends BaseResource {
 		Account account = getSessionAccount(session);
 		problem.setFixer(account.getId());
 		getData().save(problem);
-		return new ScreenShareView(problem);
+		return new ScreenShareView(account, problem);
+	}
+	
+	@GET
+	@Path("/delete")
+	public Response deleteProblem(@QueryParam("id") String id, @Session HttpSession session) {
+		getData().delete(getData().getProblemById(id));
+		return Response.seeOther(URI.create("/problems")).build();
 	}
 	
 	@GET

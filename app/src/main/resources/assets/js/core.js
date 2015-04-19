@@ -13,6 +13,8 @@ $(document).ready(function() {
 	$('header .menu').mouseup(function() {
 		$('header .menu-links').fadeToggle(300);
 	});
+	$('section.home').hide().delay(500).fadeIn(1500);
+	$('.bg-cover').hide().fadeIn(2000);
 });
 
 $(window).load(function () {

@@ -1,14 +1,12 @@
 package com.fixmyfolks.app.resources;
 
-import io.dropwizard.views.View;
-
-public class VenmoLoginView extends View {
+public class VenmoLoginView extends SessionView {
 
 	private String type;
 	private String venmoClientId;
 	
 	protected VenmoLoginView(String type, String venmoClientId) {
-		super("venmo_login.ftl");
+		super(null, "venmo_login.ftl");
 		this.type = type;
 		this.venmoClientId = venmoClientId;
 	}

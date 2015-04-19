@@ -1,15 +1,14 @@
 package com.fixmyfolks.app.resources;
 
-import io.dropwizard.views.View;
-
+import com.fixmyfolks.data.model.Account;
 import com.fixmyfolks.data.model.Problem;
 
-public class FolkScreenShareView extends View {
+public class FolkScreenShareView extends SessionView {
 
 	private Problem problem;
 	
-	public FolkScreenShareView(Problem problem) {
-		super("problem_folk_screen_share.ftl");
+	public FolkScreenShareView(Account account, Problem problem) {
+		super(account, "problem_folk_screen_share.ftl");
 		this.problem = problem;
 	}
 

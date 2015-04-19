@@ -18,6 +18,7 @@ public class Problem {
     private ObjectId fixer;
     private boolean fixed;
     private boolean donationReceived;
+    private String charityName;
 
     public ObjectId getId() {
         return id;
@@ -81,6 +82,14 @@ public class Problem {
 
 	public void setDonationReceived(boolean donationReceived) {
 		this.donationReceived = donationReceived;
+	}
+
+	public String getCharityName() {
+		return charityName;
+	}
+
+	public void setCharityName(String charityName) {
+		this.charityName = charityName;
 	}
 
 }

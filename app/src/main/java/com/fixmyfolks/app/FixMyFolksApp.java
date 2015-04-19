@@ -18,6 +18,7 @@ import retrofit.converter.GsonConverter;
 
 import com.fixmyfolks.app.resources.AccountResource;
 import com.fixmyfolks.app.resources.BaseResource;
+import com.fixmyfolks.app.resources.GivingResource;
 import com.fixmyfolks.app.resources.IndexResource;
 import com.fixmyfolks.app.resources.ProblemResource;
 import com.fixmyfolks.data.FixFolkData;
@@ -56,7 +57,8 @@ public class FixMyFolksApp extends Application<AppConfiguration> {
 		List<BaseResource> resources = Arrays.asList(
 				new IndexResource(data, configuration),
 				new AccountResource(data, venmo, configuration),
-				new ProblemResource(data, configuration));
+				new ProblemResource(data, configuration),
+				new GivingResource(data, justGiving, configuration));
 		for (BaseResource resource : resources) {
 			environment.jersey().register(resource);
 		}

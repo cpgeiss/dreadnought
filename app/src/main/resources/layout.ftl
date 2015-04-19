@@ -21,21 +21,23 @@
    
 	<body>
 		<header class="inside">
-			<img class="logo" src="/assets/images/fixmyfolks-logo.png" alt="FixMyFolks" />
-			<a href="#" class="menu">Menu</a>
-			<ul class="menu-links">
-				<li><a href="#">Account Settings</a></li>
-				<li><a href="#">Problem History</a></li>
-				<li><a href="#">Log out</a></li>
-			</ul>
+			<a href="/problems"><img class="logo" src="/assets/images/fixmyfolks-logo.png" alt="FixMyFolks" /></a>
+			<#if account??>
+				<a href="#" class="menu">Menu</a>
+				<ul class="menu-links">
+					<#if !account.fixer><li><a href="/problems/new">Start a Problem</a></li></#if>
+					<li><a href="/problems">Problem History</a></li>
+					<li><a href="/accounts/logout">Log out</a></li>
+				</ul>
+			</#if>
 			<div class="shadow"></div>
 		</header>
 		
-		<section class="content">
+		<section class="content" style="margin-bottom: 50px;">
 			<@page_body/>
 		</section>
 
-		<footer class="inside">
+		<footer>
 			<div><sup>$</sup>15,320 DONATIONS TO DATE</div>
 			<ul>
 				<li>Chris G. donated $25 to St. Jude Children’s Hospital</li>
@@ -49,6 +51,7 @@
 	
 	<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 	<script src="/assets/js/bootstrap.js"></script>
+	<script src="/assets/js/core.js"></script>
 	<@page_js/>
 </html>
 </#macro>

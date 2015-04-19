@@ -1,11 +1,11 @@
 package com.fixmyfolks.app.resources;
 
-import io.dropwizard.views.View;
+import com.fixmyfolks.data.model.Account;
 
-public class ProblemFormView extends View {
+public class ProblemFormView extends SessionView {
 
-	public ProblemFormView() {
-		super("problem_form.ftl");
+	public ProblemFormView(Account account) {
+		super(account, "problem_form.ftl");
 	}
 
 }

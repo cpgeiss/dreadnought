@@ -114,4 +114,9 @@ public class FixFolkDataImpl implements FixFolkData {
             .set("donationReceived", true);
         datastore.update(query, update);
     }
+
+	@Override
+	public void delete(Object thing) {
+		datastore.delete(thing);
+	}
 }

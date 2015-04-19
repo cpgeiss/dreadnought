@@ -18,4 +18,5 @@ public interface FixFolkData {
     public String getJustGivingDonationFormUrl(String charityId, Double price, String problemId);
     public void flagDonationOnProblem(String problemId);
     public void save(Object thing);
+    public void delete(Object thing);
 }
