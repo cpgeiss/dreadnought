@@ -47,6 +47,7 @@ public class FixMyFolksApp extends Application<AppConfiguration> {
           .create();
       RestAdapter givingAdapter = new RestAdapter.Builder()
           .setEndpoint(configuration.getGivingEndpoint())
+          .setLogLevel(RestAdapter.LogLevel.FULL)
           .setConverter(new GsonConverter(givingParser))
           .build();
 		Venmo venmo = venmoAdapter.create(Venmo.class);
@@ -57,8 +58,8 @@ public class FixMyFolksApp extends Application<AppConfiguration> {
 		List<BaseResource> resources = Arrays.asList(
 				new IndexResource(data, configuration),
 				new AccountResource(data, venmo, configuration),
-				new ProblemResource(data, configuration),
-				new GivingResource(data, justGiving, configuration));
+          new GivingResource(data, justGiving, configuration),
+				new ProblemResource(data, configuration));
 		for (BaseResource resource : resources) {
 			environment.jersey().register(resource);
 		}

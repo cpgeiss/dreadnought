@@ -19,7 +19,7 @@ import com.fixmyfolks.app.AppConfiguration;
 import com.fixmyfolks.data.FixFolkData;
 import com.fixmyfolks.justgiving.JustGiving;
 import com.fixmyfolks.justgiving.model.Category;
-import com.fixmyfolks.justgiving.model.Charity;
+import com.fixmyfolks.justgiving.model.SearchResult;
 
 @Path("/giving")
 @Produces(MediaType.APPLICATION_JSON)
@@ -35,8 +35,15 @@ public class GivingResource extends BaseResource {
 
     @POST
     @Path("/charities")
-    public List<Charity> charities(@FormParam("query") String query, @Session HttpSession session) {
-        return giving.charitySearch(config.getGivingAppId(), query);
+    public List<SearchResult> charities(@FormParam("query") String query, @Session HttpSession session) {
+        return giving.charitySearch(config.getGivingAppId(), query).getCharitySearchResults();
+    }
+
+    @GET
+    @Path("/charities")
+    @Produces(MediaType.TEXT_HTML)
+    public GivingCharitiesView assignCharity(@PathParam("problemId") String problemId, @Session HttpSession session) {
+        return new GivingCharitiesView(problemId);
     }
 
     @GET
