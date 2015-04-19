@@ -16,7 +16,7 @@ public interface Venmo {
     OAuthToken authenticate(@Field("client_id") String clientId, @Field("client_secret") String clientSecret, @Field("code") String authCode);
 
     @POST("/v1/payments")
-    PaymentData makePayment(@Query("access_token") String accessToken);
+    PaymentData makePayment(@Query("access_token") String accessToken, @Field("user_id") String userId, @Field("amount") String amount, @Field("note") String note);
 
     @GET("/v1/payments/{paymentId}")
     PaymentData getPayment(@Query("access_token") String accessToken, @Query("paymentId") String paymentId);

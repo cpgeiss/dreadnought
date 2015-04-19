@@ -18,20 +18,24 @@ import javax.ws.rs.core.Response;
 
 import com.fixmyfolks.app.AppConfiguration;
 import com.fixmyfolks.data.FixFolkData;
+import com.fixmyfolks.data.model.Account;
 import com.fixmyfolks.data.model.Problem;
 import com.fixmyfolks.justgiving.JustGiving;
 import com.fixmyfolks.justgiving.model.Category;
 import com.fixmyfolks.justgiving.model.SearchResult;
+import com.fixmyfolks.venmo.Venmo;
 
 @Path("/giving")
 @Produces(MediaType.APPLICATION_JSON)
 public class GivingResource extends BaseResource {
     private final JustGiving giving;
+    private final Venmo venmo;
     private final AppConfiguration config;
 
-    public GivingResource(FixFolkData data, JustGiving giving, AppConfiguration config) {
+    public GivingResource(FixFolkData data, JustGiving giving, Venmo venmo, AppConfiguration config) {
         super(data);
         this.giving = giving;
+        this.venmo = venmo;
         this.config = config;
     }
 
@@ -64,9 +68,17 @@ public class GivingResource extends BaseResource {
 
     @GET
     @Path("/donate/{problemId}/{charityId}")
-    public Response donate(@PathParam("problemId") String problemId, @PathParam("charityId") String charityId) {
-        SearchResult charity = giving.charity(config.getGivingAppId(), charityId);
-        getData().flagDonationOnProblem(problemId, charity);
+    public Response donate(@PathParam("problemId") final String problemId, @PathParam("charityId") final String charityId) {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Problem problem = getData().getProblemById(problemId);
+                Account fixer = getData().getAccountById(problem.getFixer().toString());
+                SearchResult charity = giving.charity(config.getGivingAppId(), charityId);
+                venmo.makePayment(fixer.getToken().getAccessToken(), fixer.getToken().getUser().getId(), problem.getPrice().toString(), "Fixed - " + problem.getDescription());
+                getData().flagDonationOnProblem(problemId, charity);
+            }
+        });
         return Response.seeOther(URI.create("/")).build();
     }
 }

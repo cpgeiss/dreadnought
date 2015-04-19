@@ -58,7 +58,7 @@ public class FixMyFolksApp extends Application<AppConfiguration> {
 		List<BaseResource> resources = Arrays.asList(
 				new IndexResource(data, configuration),
 				new AccountResource(data, venmo, configuration),
-          new GivingResource(data, justGiving, configuration),
+          new GivingResource(data, justGiving, venmo, configuration),
 				new ProblemResource(data, configuration));
 		for (BaseResource resource : resources) {
 			environment.jersey().register(resource);
