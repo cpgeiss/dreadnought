@@ -15,13 +15,13 @@ public class AppConfiguration extends Configuration {
 	@NotEmpty
 	private String db;
 	
-	private String venmoClientId = DEFAULT_VENMO_ENDPOINT;
+	@NotEmpty
+	private String venmoClientId;
 	
 	@NotEmpty
 	private String venmoClientSecret;
 
-    @NotEmpty
-    private String venmoClientEndpoint;
+    private String venmoClientEndpoint = DEFAULT_VENMO_ENDPOINT;
 	
 	@NotEmpty
 	private String sendGridUsername;

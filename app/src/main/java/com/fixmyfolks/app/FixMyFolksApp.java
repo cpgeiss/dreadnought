@@ -5,35 +5,46 @@ import io.dropwizard.jersey.sessions.SessionFactoryProvider;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
-import retrofit.RestAdapter;
-import retrofit.converter.JacksonConverter;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.eclipse.jetty.server.session.SessionHandler;
 
+import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
+
 import com.fixmyfolks.app.resources.AccountResource;
 import com.fixmyfolks.app.resources.BaseResource;
 import com.fixmyfolks.app.resources.IndexResource;
+import com.fixmyfolks.app.resources.ProblemResource;
 import com.fixmyfolks.data.FixFolkData;
 import com.fixmyfolks.data.FixFolkDataImpl;
 import com.fixmyfolks.venmo.Venmo;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mongodb.MongoClient;
 
 public class FixMyFolksApp extends Application<AppConfiguration> {
 
 	@Override
 	public void run(AppConfiguration configuration, Environment environment) throws Exception {
-      RestAdapter venmoAdapter = new RestAdapter.Builder()
-          .setEndpoint(configuration.getVenmoClientEndpoint())
-          .setConverter(new JacksonConverter())
-          .build();
-      Venmo venmo = venmoAdapter.create(Venmo.class);
+		Gson gson = new GsonBuilder()
+			.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+			.registerTypeAdapter(Date.class, new DateTypeAdapter())
+			.create();
+		RestAdapter venmoAdapter = new RestAdapter.Builder()
+			.setEndpoint(configuration.getVenmoClientEndpoint())
+			.setConverter(new GsonConverter(gson))
+			.build();
+		Venmo venmo = venmoAdapter.create(Venmo.class);
 		FixFolkData data = new FixFolkDataImpl(new MongoClient(), configuration.getDb());
 		List<BaseResource> resources = Arrays.asList(
 				new IndexResource(data, configuration.getVenmoClientId(), configuration.getVenmoClientSecret()),
-				new AccountResource(data, venmo, configuration));
+				new AccountResource(data, venmo, configuration),
+				new ProblemResource(data));
 		for (BaseResource resource : resources) {
 			environment.jersey().register(resource);
 		}
@@ -41,8 +52,11 @@ public class FixMyFolksApp extends Application<AppConfiguration> {
 		// Add session support
 		environment.jersey().register(SessionFactoryProvider.class);
 	    environment.servlets().setSessionHandler(new SessionHandler());
+	    
+	    // Handle exceptions and redirect to the index page
+	    environment.jersey().register(new AuthExceptionMapper());
 	}
-
+	
 	@Override
 	public void initialize(Bootstrap<AppConfiguration> bootstrap) {
 		super.initialize(bootstrap);

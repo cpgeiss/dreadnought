@@ -1,6 +1,10 @@
 package com.fixmyfolks.app.resources;
 
+import javax.servlet.http.HttpSession;
+
+import com.fixmyfolks.app.AuthException;
 import com.fixmyfolks.data.FixFolkData;
+import com.fixmyfolks.data.model.Account;
 
 public class BaseResource {
 
@@ -10,8 +14,20 @@ public class BaseResource {
 		this.data = data;
 	}
 	
-	public FixFolkData getData() {
+	protected FixFolkData getData() {
 		return data;
+	}
+	
+	protected Account getSessionAccount(HttpSession session) {
+		Account account = null;
+		Object id = session.getAttribute("id");
+		if (id != null) {
+			account = getData().getAccountById(id.toString());
+		}
+		if (account == null) {
+			throw new AuthException();
+		}
+		return account;
 	}
 	
 }
