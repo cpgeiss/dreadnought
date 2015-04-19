@@ -3,6 +3,8 @@ package com.fixmyfolks.app.resources;
 import io.dropwizard.jersey.sessions.Session;
 import io.dropwizard.views.View;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.net.URI;
 
 import javax.servlet.http.HttpSession;
@@ -15,15 +17,19 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.fixmyfolks.app.AppConfiguration;
 import com.fixmyfolks.data.FixFolkData;
 import com.fixmyfolks.data.model.Account;
 import com.fixmyfolks.data.model.Problem;
+import com.sendgrid.SendGrid;
 
 @Path("/problems")
 public class ProblemResource extends BaseResource {
+    private final AppConfiguration config;
 
-	public ProblemResource(FixFolkData data) {
+	public ProblemResource(FixFolkData data, AppConfiguration config) {
 		super(data);
+      this.config = config;
 	}
 	
 	@GET
@@ -56,14 +62,50 @@ public class ProblemResource extends BaseResource {
 		getData().save(problem);
 		Thread t = new Thread(new Runnable() {
 			public void run() {
-//				for (Account fixer : getData().getFixersInterestedInTag(problem.getTag())) {
-					// TODO SendGrid integration here
-//				}
+          InputStream input = getClass().getClassLoader().getResourceAsStream(config.getSendGridBody());
+          String body = getStringFromInput(input);
+          SendGrid gridMail = new SendGrid(config.getSendGridUsername(), config.getSendGridPassword());
+          SendGrid.Email email = new SendGrid.Email();
+          email.setFrom(config.getSendGridFrom());
+          email.setSubject(config.getSendGridSubject().replace("{category}", problem.getTag()));
+          String description = problem.getDescription();
+          if (description.length() > 100) {
+              description = description.substring(0, 100) + "...";
+          }
+          email.setHtml(body
+              .replace("{category}", problem.getTag())
+              .replace("{amount}", String.format("%.2f", problem.getPrice()))
+              .replace("{description}", description)
+              .replace("{fixLink}", config.getAppDomain() + "/problems/start?problemId=" + problem.getId().toString())
+              .replace("{buttonImage}", config.getAppDomain() + "/problems/image/" + problem.getId().toString()));
+          for (Account fixer : getData().getFixersInterestedInTag(problem.getTag())) {
+              email.addTo(fixer.getToken().getUser().getEmail());
+              email.addToName(fixer.getToken().getUser().getFirstName());
+          }
+          try {
+              gridMail.send(email);
+          } catch (Exception e) {
+              // Swalloooooow
+          }
 			}
 		});
 		t.start();
 		return new FolkScreenShareView(problem);
 	}
+    private String getStringFromInput(InputStream input) {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        try {
+            int read = input.read(buffer);
+            while (read > 0) {
+                bos.write(buffer, 0, read);
+                read = input.read(buffer);
+            }
+            return new String(bos.toByteArray(), "UTF-8");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 	
 	@GET
 	@Path("/start")
