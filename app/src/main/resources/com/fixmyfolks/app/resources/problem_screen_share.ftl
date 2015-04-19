@@ -1,8 +1,6 @@
 <#include "/layout.ftl">
 <#macro page_body>
 
-<div><a href="/problems/fixed?id=${problem.id}" class="btn btn-lg btn-success">Fixed</a></div>
-
 </#macro>
 
 <#macro page_js>
@@ -15,8 +13,9 @@
 
 		var newwin = window.open('https://free.gotomeeting.com/${problem.id}', 'gotomeetingwindow', params);
 		if (window.focus) {
-			newwin.focus()
+			newwin.focus();
 		}
+		window.location = "/problems";
 	});
 </script>
 </#macro>
