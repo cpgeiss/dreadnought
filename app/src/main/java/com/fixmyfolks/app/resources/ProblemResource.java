@@ -21,5 +21,4 @@ public class ProblemResource extends BaseResource {
 		Account account = getSessionAccount(session);
 		return new ProblemIndexView();
 	}
-
 }
