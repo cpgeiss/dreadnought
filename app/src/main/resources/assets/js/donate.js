@@ -19,9 +19,9 @@ $(function() {
             description = description.substr(0, 150) + '...';
           }
           $ul.append($('<li/>')
-            .append($('<img/>').attr('src', charity.logoUrl).attr('alt', charity.name))
+            .append($('<img/>').attr('style', 'width:125px').attr('src', charity.logoUrl).attr('alt', charity.name))
             .append($('<p/>').text(description))
-            .append($('<button/>').attr('type', 'button').addClass('btn btn-success').text('Select'))
+            .append($('<button/>').attr('type', 'button').attr('href', '/form/' + $ul.data('problemId') + '/' + charity.charityId).addClass('btn btn-success').text('Select'))
             .append($('<div/>').addClass('clearfix')));
         });
       }

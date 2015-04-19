@@ -9,6 +9,7 @@ import retrofit.http.Path;
 
 import com.fixmyfolks.justgiving.model.Category;
 import com.fixmyfolks.justgiving.model.Charity;
+import com.fixmyfolks.justgiving.model.SearchResult;
 
 public interface JustGiving {
     @GET("/{appId}/v1/charity/categories")
@@ -16,6 +17,12 @@ public interface JustGiving {
       "Content-Type: application/json"
     })
     List<Category> categories(@Path("appId") String appId);
+
+    @GET("/{appId}/v1/charity/{charityId}")
+    @Headers({
+      "Content-Type: application/json"
+    })
+    SearchResult charity(@Path("appId") String appId, @Path("charityId") String charityId);
 
     @GET("/{appId}/v1/charity/search")
     @Headers({

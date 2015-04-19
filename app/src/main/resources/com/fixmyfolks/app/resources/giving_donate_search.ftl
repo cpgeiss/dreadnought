@@ -4,7 +4,7 @@
 	<h1>Thank you for participating with FixMyFolks, please choose a charity to donate to.</h1>
 	<input type="text" id="searchCharities" class="search" placeholder="Search for a Charity..." /><button id="searchButton" type="button" class="btn btn-lg btn-primary" style="margin-top:9px;">GO</button>
 	<hr />
-	<ul class="donate-search-result">
+	<ul class="donate-search-result" data-problemId="${problemId}">
 	</ul>
 
 </#macro>

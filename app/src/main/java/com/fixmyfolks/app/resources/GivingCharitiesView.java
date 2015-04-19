@@ -1,12 +1,12 @@
 package com.fixmyfolks.app.resources;
 
-import io.dropwizard.views.View;
+import com.fixmyfolks.data.model.Account;
 
-public class GivingCharitiesView extends View {
+public class GivingCharitiesView extends SessionView {
     private final String problemId;
 
-    public GivingCharitiesView(String problemId) {
-        super("giving_donate_search.ftl");
+    public GivingCharitiesView(Account account, String problemId) {
+        super(account, "giving_donate_search.ftl");
         this.problemId = problemId;
     }
 

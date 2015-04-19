@@ -9,6 +9,7 @@ import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Index;
 
 import com.fixmyfolks.venmo.model.OAuthToken;
+import com.fixmyfolks.justgiving.model.SearchResult;
 
 @Entity("accounts")
 @Index("token.user.id")
@@ -18,6 +19,8 @@ public class Account {
     private List<String> interests;
     @Embedded
     private OAuthToken token;
+    @Embedded
+    private SearchResult charity;
     private boolean fixer;
 
     public ObjectId getId() {
@@ -26,6 +29,14 @@ public class Account {
 
     public void setId(ObjectId id) {
         this.id = id;
+    }
+
+    public SearchResult getCharity() {
+        return charity;
+    }
+
+    public void setCharity(SearchResult charity) {
+        this.charity = charity;
     }
 
     public List<String> getInterests() {

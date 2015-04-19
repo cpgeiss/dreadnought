@@ -10,6 +10,7 @@ import org.mongodb.morphia.query.UpdateOperations;
 
 import com.fixmyfolks.data.model.Account;
 import com.fixmyfolks.data.model.Problem;
+import com.fixmyfolks.justgiving.model.SearchResult;
 import com.mongodb.MongoClient;
 
 public class FixFolkDataImpl implements FixFolkData {
@@ -106,11 +107,12 @@ public class FixFolkDataImpl implements FixFolkData {
 	}
     }
 
-    public void flagDonationOnProblem(String problemId) {
+    public void flagDonationOnProblem(String problemId, SearchResult charity) {
         Query<Problem> query = datastore.find(Problem.class)
             .field("id").equal(new ObjectId(problemId));
         UpdateOperations<Problem> update = datastore
             .createUpdateOperations(Problem.class)
+            .set("charity", charity)
             .set("donationReceived", true);
         datastore.update(query, update);
     }
