@@ -18,7 +18,7 @@ public class ProblemResource extends BaseResource {
 	
 	@GET
 	public ProblemIndexView getProblemIndex(@Session HttpSession session) {
-		Account account = getSessionAccount(session);
+		//Account account = getSessionAccount(session);
 		return new ProblemIndexView();
 	}
 }
